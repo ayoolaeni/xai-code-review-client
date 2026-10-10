@@ -1,0 +1,279 @@
+==============================================================================
+  EXPLAINABLE AI CODE REVIEW ASSISTANT - HOW TO INSTALL AND RUN (WINDOWS)
+==============================================================================
+
+You paste source code (Python, JavaScript or Java) into a web page and get a
+report that explains what the code does, which problems it has, how serious
+they are, how sure the system is, and an improved version of the code.
+
+The application runs on YOUR computer and opens in your web browser at:
+
+    http://localhost:8000
+
+Installing takes about 15-30 minutes the first time (mostly downloads).
+After that, starting the application takes a few seconds.
+
+
+------------------------------------------------------------------------------
+WHAT YOU NEED
+------------------------------------------------------------------------------
+
+  * A Windows 10 or Windows 11 computer.
+  * An internet connection (for the installation and for the AI explanations).
+  * Python 3.13 (free) - Step 2 below.
+  * Node.js (free, optional, but recommended) - Step 3 below.
+  * A free Google Gemini API key - Step 4 below.
+    (Without a key the application still runs in an offline demonstration mode.)
+
+
+------------------------------------------------------------------------------
+STEP 1 - UNZIP THE APPLICATION
+------------------------------------------------------------------------------
+
+  1. Right-click the file  xai-code-review-client.zip  and choose
+     "Extract All...".
+  2. Choose a simple location, for example your Desktop, and click "Extract".
+  3. Open the extracted folder  xai-code-review . You should see files such as
+     SETUP-WINDOWS.bat, START-WINDOWS.bat and this HOW_TO_RUN.txt.
+
+  IMPORTANT: Do not run anything from inside the zip file. Always use the
+  extracted folder.
+
+
+------------------------------------------------------------------------------
+STEP 2 - INSTALL PYTHON (only once)
+------------------------------------------------------------------------------
+
+  1. Go to  https://www.python.org/downloads/  and download Python 3.13
+     ("Windows installer (64-bit)"). Python 3.12 also works.
+  2. Run the installer.
+  3. On the FIRST screen, tick the box  "Add python.exe to PATH"
+     (this is important), then click "Install Now".
+  4. When it says "Setup was successful", click "Close".
+
+
+------------------------------------------------------------------------------
+STEP 3 - INSTALL NODE.JS (only once, recommended)
+------------------------------------------------------------------------------
+
+  Node.js is used for the extra JavaScript security checker (ESLint).
+  The application works without it, but JavaScript checks are better with it.
+
+  1. Go to  https://nodejs.org  and download the "LTS" version for Windows.
+  2. Run the installer and click "Next" on every screen (default options).
+
+
+------------------------------------------------------------------------------
+STEP 4 - GET A FREE GOOGLE GEMINI API KEY (only once)
+------------------------------------------------------------------------------
+
+  The AI explanations come from Google Gemini. The key is free and needs no
+  credit card.
+
+  1. Go to  https://aistudio.google.com  and sign in with a Google account.
+  2. Click "Get API key", then "Create API key".
+  3. Copy the key. Keep it private - do not share it or post it anywhere.
+
+  You will paste this key in Step 5.
+
+
+------------------------------------------------------------------------------
+STEP 5 - RUN THE SETUP (only once)
+------------------------------------------------------------------------------
+
+  1. In the xai-code-review folder, double-click  SETUP-WINDOWS.bat .
+
+     If Windows shows "Windows protected your PC", click "More info" and
+     then "Run anyway".
+
+  2. A black window opens and installs everything. This can take
+     10-20 minutes. Wait until it asks you questions.
+
+  3. Answer the questions:
+       - Administrator e-mail:    press Enter to keep admin@example.com,
+                                  or type your own e-mail.
+       - Administrator password:  choose a password with at least
+                                  8 characters, including a letter and a digit.
+                                  WRITE IT DOWN - you need it to log in as
+                                  administrator.
+       - Gemini API key:          right-click in the window to paste the key
+                                  from Step 4, then press Enter.
+                                  (Press Enter without a key to use the
+                                  offline demonstration mode.)
+
+  4. When you see "Setup finished", press any key to close the window.
+
+
+------------------------------------------------------------------------------
+STEP 6 - START THE APPLICATION (every time you want to use it)
+------------------------------------------------------------------------------
+
+  1. Double-click  START-WINDOWS.bat .
+  2. A black window opens. After a few seconds your web browser opens
+     http://localhost:8000 automatically.
+     (If it does not, open your browser and type  http://localhost:8000 .)
+  3. KEEP THE BLACK WINDOW OPEN while you use the application.
+     Minimising it is fine.
+
+  TO STOP the application: close the black window.
+  TO START it again later: double-click START-WINDOWS.bat again.
+
+
+------------------------------------------------------------------------------
+STEP 7 - USING THE APPLICATION
+------------------------------------------------------------------------------
+
+  Analyse code (no account needed):
+    1. On the "Analyse" page, paste code into the editor, or click the upload
+       button "Upload .py / .js / .java" to choose a file.
+    2. Leave the language on "Auto-detect" or choose it.
+    3. Click "Analyse". A progress panel shows each step.
+    4. The report has five tabs: Overview, Breakdown, Risks, Improved Code
+       and Transparency.
+
+  Accounts:
+    * Click "Register" to create a normal user account. Registered users
+      can reopen and delete their past analyses under "History".
+
+  Administrator:
+    * Click "Log in" and use the administrator e-mail and password from
+      Step 5. The "Admin" menu lets you manage users, see usage
+      statistics (including today's AI usage) and change settings.
+
+
+------------------------------------------------------------------------------
+IMPORTANT: THE FREE AI LIMIT
+------------------------------------------------------------------------------
+
+  Google's free tier allows only a small number of AI requests per day
+  (about 20 per day for the default model in October 2026). Each analysis
+  uses 2-3 requests, so about 6-9 full AI analyses per day.
+
+  When the limit is reached, the application still works, but the report
+  shows static analysis results only, with this message:
+
+     "The free AI quota for today has been used up ... The AI explanation
+      will be available again after midnight Pacific time
+      (8:00 a.m. West Africa Time)."
+
+  This is normal and is not an error in the application.
+
+  To get more analyses per day:
+    * Log in as administrator, open Admin -> Settings and switch OFF
+      "Run the consistency check". Each analysis then uses about 1 request.
+    * Or upgrade the Google key to a paid plan and raise the limits in the
+      .env file (see "Changing settings later").
+
+  The message "The AI service returned an error" usually means Google's
+  servers are busy ("high demand"). Wait a few minutes and analyse again.
+
+
+------------------------------------------------------------------------------
+CHANGING SETTINGS LATER
+------------------------------------------------------------------------------
+
+  All settings are in the file  .env  in the xai-code-review folder.
+  (Windows may hide the name; it is the file called ".env".)
+
+  1. Close the black application window.
+  2. Right-click .env -> "Open with" -> Notepad.
+  3. Change the line you need, save the file, and start the application again.
+
+  Useful lines:
+    GEMINI_API_KEY=...              your Google Gemini key
+    LLM_PROVIDER=gemini             gemini = real AI;  mock = offline demonstration
+    GEMINI_REQUESTS_PER_DAY=18      keep a little BELOW your key's daily limit
+    GEMINI_REQUESTS_PER_MINUTE=4    keep a little BELOW your key's per-minute limit
+
+  Note: the administrator account is created the first time the application
+  starts. Changing ADMIN_PASSWORD in .env afterwards does not change the
+  password of the existing account.
+
+
+------------------------------------------------------------------------------
+WHAT IS DIFFERENT IN THIS WINDOWS VERSION
+------------------------------------------------------------------------------
+
+  * "Download PDF" shows "PDF export is not available on this server".
+    PDF export needs libraries that are only included in the Docker version
+    (see the end of this file).
+  * The Semgrep and PMD code checkers do not run on Windows. Python is
+    checked with Bandit, JavaScript with ESLint (if Node.js is installed),
+    and the AI explains all three languages. The report's Transparency tab
+    always lists which checks were and were not run.
+
+
+------------------------------------------------------------------------------
+PROBLEMS AND SOLUTIONS
+------------------------------------------------------------------------------
+
+  "Python 3.12 or 3.13 was not found"
+      Install Python (Step 2) and make sure you ticked "Add python.exe to
+      PATH". If you forgot, run the Python installer again, choose "Modify"
+      or reinstall with the box ticked. Then run SETUP-WINDOWS.bat again.
+
+  Setup stops with an error while downloading packages
+      Usually an internet problem. Check your connection and run
+      SETUP-WINDOWS.bat again - it continues where it stopped.
+
+  "The application is not installed yet" / ".env is missing"
+      Run SETUP-WINDOWS.bat first (Step 5).
+
+  The browser says "This site can't be reached"
+      The black window must be open. Start START-WINDOWS.bat, wait about
+      10 seconds, then refresh the browser page.
+
+  The black window closes immediately or shows
+  "address already in use" / "error while attempting to bind on address"
+      The application is already running in another window, or another
+      program uses port 8000. Close the other window, or restart the
+      computer, and start again.
+
+  Every report says the AI explanation is not available
+      * "quota for today has been used up": wait until 8:00 a.m. (WAT).
+      * "rejected the API key": the key in .env is wrong. Create a new key
+        (Step 4) and paste it into the GEMINI_API_KEY= line in .env.
+      * To check the AI connection, open  http://localhost:8000/api/health
+        in the browser.  "llm": "ok"  means the AI is ready.
+
+  I forgot the administrator password
+      Close the application, delete the folder  backend\data  (this deletes
+      all saved analyses and accounts), open .env in Notepad, set a new
+      ADMIN_PASSWORD=..., save, and start the application again.
+
+
+------------------------------------------------------------------------------
+PRIVACY
+------------------------------------------------------------------------------
+
+  * Passwords, keys and other secrets in the code are masked before the
+    code is sent to Google Gemini.
+  * On Google's free tier, Google may use the submitted code to improve its
+    products. Do not analyse confidential code with a free key.
+  * Guest reports are deleted automatically after 24 hours.
+
+
+------------------------------------------------------------------------------
+OPTIONAL: THE DOCKER VERSION (all features, including PDF, Semgrep and PMD)
+------------------------------------------------------------------------------
+
+  This needs Docker Desktop and a fast internet connection (it downloads
+  about 1 GB the first time).
+
+  1. Install Docker Desktop from  https://www.docker.com/products/docker-desktop
+     and start it.
+  2. Make sure the .env file exists (run SETUP-WINDOWS.bat once, or copy
+     .env.example to .env and fill in GEMINI_API_KEY, ADMIN_PASSWORD and a
+     long random JWT_SECRET).
+  3. Open the xai-code-review folder, click in the address bar, type  cmd
+     and press Enter. In the window that opens, type:
+
+         docker compose up --build
+
+  4. Wait until it finishes starting (the first time can take a long time),
+     then open  http://localhost:8000 .
+  5. To stop it, press Ctrl+C in that window.
+
+  Technical documentation for developers is in README.md and the docs folder.
+
+==============================================================================

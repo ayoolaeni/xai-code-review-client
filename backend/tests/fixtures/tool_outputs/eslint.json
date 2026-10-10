@@ -1,0 +1,74 @@
+[
+  {
+    "filePath": "/opt/eslint/work/x/snippet.js",
+    "messages": [
+      {
+        "ruleId": "security/detect-eval-with-expression",
+        "severity": 1,
+        "message": "eval with argument of type Identifier",
+        "line": 9,
+        "column": 10,
+        "nodeType": "CallExpression",
+        "endLine": 9,
+        "endColumn": 26
+      },
+      {
+        "ruleId": "no-eval",
+        "severity": 2,
+        "message": "eval can be harmful.",
+        "line": 9,
+        "column": 10,
+        "nodeType": "CallExpression",
+        "messageId": "unexpected",
+        "endLine": 9,
+        "endColumn": 14
+      },
+      {
+        "ruleId": "security/detect-child-process",
+        "severity": 1,
+        "message": "Found child_process.exec() with non Literal first argument",
+        "line": 13,
+        "column": 3,
+        "nodeType": "CallExpression",
+        "endLine": 17,
+        "endColumn": 5
+      },
+      {
+        "ruleId": "eqeqeq",
+        "severity": 1,
+        "message": "Expected '===' and instead saw '=='.",
+        "line": 14,
+        "column": 13,
+        "nodeType": "BinaryExpression",
+        "messageId": "unexpected",
+        "endLine": 14,
+        "endColumn": 15,
+        "suggestions": [
+          {
+            "messageId": "replaceOperator",
+            "data": {
+              "expectedOperator": "===",
+              "actualOperator": "=="
+            },
+            "fix": {
+              "range": [
+                319,
+                321
+              ],
+              "text": "==="
+            },
+            "desc": "Use '===' instead of '=='."
+          }
+        ]
+      }
+    ],
+    "suppressedMessages": [],
+    "errorCount": 1,
+    "fatalErrorCount": 0,
+    "warningCount": 3,
+    "fixableErrorCount": 0,
+    "fixableWarningCount": 0,
+    "source": "const { exec } = require(\"child_process\");\n\nfunction showComment(comment) {\n  const box = document.getElementById(\"comments\");\n  box.innerHTML = \"<p>\" + comment + \"</p>\";\n}\n\nfunction calculate(expression) {\n  return eval(expression);\n}\n\nfunction convert(file) {\n  exec(`convert ${file} out.png`, (err) => {\n    if (err == null) {\n      console.log(\"done\");\n    }\n  });\n}\n\nmodule.exports = { showComment, calculate, convert };\n",
+    "usedDeprecatedRules": []
+  }
+]

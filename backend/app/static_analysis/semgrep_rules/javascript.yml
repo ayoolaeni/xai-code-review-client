@@ -1,0 +1,149 @@
+rules:
+  - id: xai-js-innerhtml
+    languages: [javascript]
+    severity: ERROR
+    message: HTML built from variable data is written into the page with innerHTML; this allows cross-site scripting (XSS).
+    metadata: {cwe: "CWE-79", owasp: "A03:2021 - Injection", category: security}
+    patterns:
+      - pattern-either:
+          - pattern: $EL.innerHTML = $X
+          - pattern: $EL.outerHTML = $X
+          - pattern: $EL.insertAdjacentHTML($POS, $X)
+      - pattern-not: $EL.innerHTML = "..."
+      - pattern-not: $EL.outerHTML = "..."
+      - pattern-not: $EL.insertAdjacentHTML($POS, "...")
+
+  - id: xai-js-eval
+    languages: [javascript]
+    severity: ERROR
+    message: eval / new Function / string timers run text as code; with user input this allows code injection.
+    metadata: {cwe: "CWE-95", owasp: "A03:2021 - Injection", category: security}
+    pattern-either:
+      - patterns:
+          - pattern: eval($X)
+          - pattern-not: eval("...")
+      - pattern: new Function(...)
+      - pattern: setTimeout("...", ...)
+      - pattern: setInterval("...", ...)
+
+  - id: xai-js-child-process
+    languages: [javascript]
+    severity: ERROR
+    message: Shell command built from variable input; an attacker could inject extra commands.
+    metadata: {cwe: "CWE-78", owasp: "A03:2021 - Injection", category: security}
+    patterns:
+      - pattern-either:
+          - pattern: child_process.exec($CMD, ...)
+          - pattern: child_process.execSync($CMD, ...)
+          - pattern: exec($CMD, ...)
+          - pattern: execSync($CMD, ...)
+      - pattern-not: child_process.exec("...", ...)
+      - pattern-not: child_process.execSync("...", ...)
+      - pattern-not: exec("...", ...)
+      - pattern-not: execSync("...", ...)
+
+  - id: xai-js-sql-concat
+    languages: [javascript]
+    severity: ERROR
+    message: SQL query built from string concatenation or a template literal; user input can change the query (SQL injection).
+    metadata: {cwe: "CWE-89", owasp: "A03:2021 - Injection", category: security}
+    pattern-either:
+      - pattern: $DB.query(<... "..." + $X ...>, ...)
+      - pattern: $DB.query(`...${$X}...`, ...)
+      - pattern: $DB.execute(<... "..." + $X ...>, ...)
+      - pattern: $DB.execute(`...${$X}...`, ...)
+      - patterns:
+          - pattern-either:
+              - pattern: $DB.query($Q, ...)
+              - pattern: $DB.execute($Q, ...)
+          - pattern-either:
+              - pattern-inside: |
+                  $Q = <... "..." + $X ...>;
+                  ...
+              - pattern-inside: |
+                  $Q = `...${$X}...`;
+                  ...
+              - pattern-inside: |
+                  const $Q = <... "..." + $X ...>;
+                  ...
+              - pattern-inside: |
+                  const $Q = `...${$X}...`;
+                  ...
+              - pattern-inside: |
+                  let $Q = <... "..." + $X ...>;
+                  ...
+
+  - id: xai-js-hardcoded-jwt-secret
+    languages: [javascript]
+    severity: ERROR
+    message: The JWT signing secret is hard-coded in the source code; anyone with the code can forge tokens.
+    metadata: {cwe: "CWE-798", owasp: "A07:2021 - Identification and Authentication Failures", category: security}
+    pattern-either:
+      - pattern: jwt.sign($P, "...", ...)
+      - pattern: jwt.verify($T, "...", ...)
+
+  - id: xai-js-path-traversal
+    languages: [javascript]
+    severity: ERROR
+    message: A file path is built from request data without checking it stays inside the intended folder (path traversal).
+    metadata: {cwe: "CWE-22", owasp: "A01:2021 - Broken Access Control", category: security}
+    pattern-either:
+      - patterns:
+          - pattern: $RES.sendFile($X, ...)
+          - pattern-not: $RES.sendFile("...", ...)
+          - pattern-not: '$RES.sendFile($X, {..., root: $ROOT, ...}, ...)'
+      - pattern: fs.readFile(path.join($B, <... req.$P.$N ...>), ...)
+      - pattern: fs.readFileSync(path.join($B, <... req.$P.$N ...>), ...)
+      - pattern: fs.readFileSync(<... $S + req.$P.$N ...>, ...)
+      - pattern: fs.readFile(<... $S + req.$P.$N ...>, ...)
+      - pattern: fs.createReadStream(<... req.$P.$N ...>, ...)
+
+  - id: xai-js-math-random-token
+    languages: [javascript]
+    severity: WARNING
+    message: Math.random() is predictable and must not be used for tokens, passwords, keys or session IDs.
+    metadata: {cwe: "CWE-338", owasp: "A02:2021 - Cryptographic Failures", category: security}
+    patterns:
+      - pattern: Math.random()
+      - pattern-either:
+          - pattern-inside: |
+              function $FN(...) { ... }
+          - pattern-inside: |
+              const $FN = $E;
+          - pattern-inside: |
+              let $FN = $E;
+          - pattern-inside: |
+              var $FN = $E;
+      - metavariable-regex:
+          metavariable: $FN
+          regex: (?i).*(token|secret|password|key|id|session).*
+
+  - id: xai-js-prototype-pollution
+    languages: [javascript]
+    severity: ERROR
+    message: Recursive merge copies every key, including "__proto__" and "constructor"; attackers can pollute Object.prototype.
+    metadata: {cwe: "CWE-1321", owasp: "A08:2021 - Software and Data Integrity Failures", category: security}
+    patterns:
+      - pattern-inside: |
+          function $MERGE(...) { ... }
+      - pattern-inside: |
+          for ($K in $S) { ... }
+      - pattern: $T[$K] = $V
+      - pattern-not-inside: |
+          for ($K in $S) {
+            ...
+            if (<... "__proto__" ...>) { ... }
+            ...
+          }
+      - pattern-not-inside: |
+          for ($K in $S) {
+            ...
+            if (<... "__proto__" ...>) continue;
+            ...
+          }
+      - pattern-not-inside: |
+          for ($K in $S) {
+            ...
+            if (<... "__proto__" ...>) return $R;
+            ...
+          }

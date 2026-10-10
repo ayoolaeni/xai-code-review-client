@@ -1,0 +1,10 @@
+{
+  "name": "xai-eslint-runner",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "eslint": "^9",
+    "eslint-plugin-security": "^3",
+    "globals": "^15"
+  }
+}

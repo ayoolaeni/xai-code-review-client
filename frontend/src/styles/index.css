@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-canvas text-ink antialiased;
+  }
+  body {
+    @apply min-h-screen bg-canvas font-sans text-[15px] leading-relaxed;
+  }
+  /* Visible focus ring for keyboard users (NFR8). */
+  :focus-visible {
+    @apply outline-none ring-2 ring-offset-2 ring-blue-700 ring-offset-white;
+  }
+  a {
+    @apply text-blue-800 underline-offset-2 hover:underline;
+  }
+  h1 {
+    @apply text-2xl font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-lg font-semibold;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-lg border border-line bg-surface p-4 shadow-sm sm:p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white hover:bg-black;
+  }
+  .btn-secondary {
+    @apply btn border border-line bg-surface text-ink hover:bg-canvas;
+  }
+  .btn-danger {
+    @apply btn bg-red-800 text-white hover:bg-red-900;
+  }
+  .btn-link {
+    @apply inline-flex items-center gap-1 text-sm font-semibold text-blue-800 hover:underline;
+  }
+  .input {
+    @apply w-full rounded-md border border-line bg-surface px-3 py-2 text-sm text-ink placeholder:text-muted;
+  }
+  .label {
+    @apply mb-1 block text-sm font-semibold text-ink;
+  }
+  .hint {
+    @apply mt-1 text-xs text-muted;
+  }
+  .code-block {
+    @apply overflow-x-auto rounded-md border border-line bg-[#0f172a] p-3 font-mono text-[13px] leading-6 text-slate-100;
+  }
+}
+
+/* Highlighted lines in the read-only Monaco viewer (BreakdownTab). */
+.xai-line-highlight {
+  background: rgba(250, 204, 21, 0.25);
+}
+.xai-line-glyph {
+  background: #ca8a04;
+  width: 4px !important;
+  margin-left: 3px;
+}

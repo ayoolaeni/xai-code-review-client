@@ -1,0 +1,34 @@
+# Local production-like stack: PostgreSQL 16 + the app (spec 18.2). Site: http://localhost:8000
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: xai
+      POSTGRES_PASSWORD: xai
+      POSTGRES_DB: xai
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xai -d xai"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    image: xai-code-review:latest
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://xai:xai@db:5432/xai
+      APP_BASE_URL: ${APP_BASE_URL:-http://localhost:8000}
+      # Local compose runs over plain HTTP; real deployments set APP_ENV=production and COOKIE_SECURE=true.
+      APP_ENV: ${COMPOSE_APP_ENV:-development}
+      COOKIE_SECURE: ${COMPOSE_COOKIE_SECURE:-false}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:

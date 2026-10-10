@@ -1,0 +1,102 @@
+{
+  "P01": {"file": "samples/p01_user_lookup.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P01-1", "cwe": "CWE-89", "category": "security", "lines": [20, 21], "anchor": "+ username +",
+     "description": "SQL query built by concatenating username and run with cursor.execute", "seeded": true}]},
+  "P02": {"file": "samples/p02_ping_tool.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P02-1", "cwe": "CWE-78", "category": "security", "lines": [19, 19], "anchor": "os.system(",
+     "description": "Shell command built from the host query parameter and run with os.system", "seeded": true}]},
+  "P03": {"file": "samples/p03_db_config.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P03-1", "cwe": "CWE-798", "category": "security", "lines": [8, 8], "anchor": "DB_PASSWORD = \"",
+     "description": "Database password hard-coded in the source", "seeded": true},
+    {"issue_id": "P03-2", "cwe": "CWE-798", "category": "security", "lines": [9, 9], "anchor": "EXCHANGE_API_KEY = \"",
+     "description": "Exchange-rate API key hard-coded in the source", "seeded": true}]},
+  "P04": {"file": "samples/p04_session_loader.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P04-1", "cwe": "CWE-502", "category": "security", "lines": [14, 14], "anchor": "pickle.loads(",
+     "description": "Cookie data from the browser deserialised with pickle.loads", "seeded": true},
+    {"issue_id": "P04-2", "cwe": "CWE-502", "category": "security", "lines": [4, 4], "anchor": "import pickle",
+     "description": "Bandit warns that the pickle module is imported (informational; the risk is the use on line 14)", "seeded": false}]},
+  "P05": {"file": "samples/p05_file_download.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P05-1", "cwe": "CWE-22", "category": "security", "lines": [18, 21], "anchor": "os.path.join(INVOICE_DIR, filename)",
+     "description": "File name from the query string joined to the invoice folder without checking it stays inside it", "seeded": true}]},
+  "P06": {"file": "samples/p06_password_store.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P06-1", "cwe": "CWE-327", "category": "security", "lines": [9, 9], "anchor": "hashlib.md5(",
+     "description": "Passwords hashed with unsalted MD5", "seeded": true}]},
+  "P07": {"file": "samples/p07_calculator.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P07-1", "cwe": "CWE-95", "category": "security", "lines": [22, 22], "anchor": "eval(expression)",
+     "description": "Client-supplied expression evaluated with eval", "seeded": true}]},
+  "P08": {"file": "samples/p08_log_reader.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P08-1", "cwe": "CWE-404", "category": "reliability", "lines": [8, 10], "anchor": "open(path",
+     "description": "Log file opened without being closed (no with-statement)", "seeded": true},
+    {"issue_id": "P08-2", "cwe": "CWE-390", "category": "reliability", "lines": [21, 22], "anchor": "except:",
+     "description": "Bare except with pass silently hides every error", "seeded": true}]},
+  "P09": {"file": "samples/p09_dedupe.py", "language": "python", "clean": false, "issues": [
+    {"issue_id": "P09-1", "cwe": null, "category": "performance", "lines": [12, 18], "anchor": "for kept in unique",
+     "description": "Duplicate detection compares every record with every kept record (O(n^2))", "seeded": true},
+    {"issue_id": "P09-2", "cwe": null, "category": "reliability", "lines": [9, 9], "anchor": "seen=[]",
+     "description": "Mutable default argument seen=[] keeps e-mails between calls", "seeded": true}]},
+  "P10": {"file": "samples/p10_invoice_total.py", "language": "python", "clean": true, "issues": []},
+
+  "J01": {"file": "samples/j01_comment_widget.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J01-1", "cwe": "CWE-79", "category": "security", "lines": [14, 14], "anchor": ".innerHTML =",
+     "description": "Comment author and text inserted into the page with innerHTML (stored XSS)", "seeded": true}]},
+  "J02": {"file": "samples/j02_formula.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J02-1", "cwe": "CWE-95", "category": "security", "lines": [13, 13], "anchor": "eval(expression)",
+     "description": "User formula evaluated with eval", "seeded": true}]},
+  "J03": {"file": "samples/j03_image_convert.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J03-1", "cwe": "CWE-78", "category": "security", "lines": [17, 17], "anchor": "exec(`convert",
+     "description": "File name and width interpolated into a shell command run with child_process.exec", "seeded": true}]},
+  "J04": {"file": "samples/j04_orders_api.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J04-1", "cwe": "CWE-89", "category": "security", "lines": [9, 10], "anchor": "+ customerId +",
+     "description": "SQL query built by concatenating the customer id and status from the request", "seeded": true}]},
+  "J05": {"file": "samples/j05_auth_token.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J05-1", "cwe": "CWE-798", "category": "security", "lines": [6, 6], "anchor": "JWT_SECRET = \"",
+     "description": "JWT signing secret hard-coded in the source", "seeded": true}]},
+  "J06": {"file": "samples/j06_static_files.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J06-1", "cwe": "CWE-22", "category": "security", "lines": [10, 15], "anchor": "res.sendFile(path.join(MANUALS_DIR, fileName))",
+     "description": "File name from the URL passed to res.sendFile without restricting it to the manuals folder", "seeded": true}]},
+  "J07": {"file": "samples/j07_reset_token.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J07-1", "cwe": "CWE-338", "category": "security", "lines": [11, 11], "anchor": "Math.random()",
+     "description": "Password-reset token generated with Math.random (predictable)", "seeded": true}]},
+  "J08": {"file": "samples/j08_merge_config.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J08-1", "cwe": "CWE-1321", "category": "security", "lines": [8, 16], "anchor": "target[key] = source[key]",
+     "description": "Recursive merge copies __proto__ / constructor keys from user input (prototype pollution)", "seeded": true}]},
+  "J09": {"file": "samples/j09_fetch_profile.js", "language": "javascript", "clean": false, "issues": [
+    {"issue_id": "J09-1", "cwe": "CWE-703", "category": "reliability", "lines": [6, 28], "anchor": "await fetch(",
+     "description": "fetch result not checked (response.ok) and the async call's rejection is never handled", "seeded": true},
+    {"issue_id": "J09-2", "cwe": null, "category": "maintainability", "lines": [13, 16], "anchor": "role == \"admin\"",
+     "description": "Loose equality (==) used instead of strict equality (===)", "seeded": true}]},
+  "J10": {"file": "samples/j10_cart_utils.js", "language": "javascript", "clean": true, "issues": []},
+
+  "V01": {"file": "samples/V01UserDao.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V01-1", "cwe": "CWE-89", "category": "security", "lines": [18, 20], "anchor": "+ country +",
+     "description": "SQL query built by concatenating country and run with Statement.executeQuery", "seeded": true}]},
+  "V02": {"file": "samples/V02BackupService.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V02-1", "cwe": "CWE-78", "category": "security", "lines": [10, 11], "anchor": "Runtime.getRuntime().exec(command)",
+     "description": "Folder name concatenated into a command run with Runtime.exec", "seeded": true}]},
+  "V03": {"file": "samples/V03DbConnector.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V03-1", "cwe": "CWE-798", "category": "security", "lines": [12, 12], "anchor": "\"Sh0pP@ssw0rd!2024\"",
+     "description": "Database password hard-coded in DriverManager.getConnection", "seeded": true}]},
+  "V04": {"file": "samples/V04SessionReader.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V04-1", "cwe": "CWE-502", "category": "security", "lines": [13, 14], "anchor": "input.readObject()",
+     "description": "Cookie bytes deserialised with ObjectInputStream.readObject", "seeded": true}]},
+  "V05": {"file": "samples/V05ReportDownload.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V05-1", "cwe": "CWE-22", "category": "security", "lines": [13, 13], "anchor": "new File(REPORT_DIR + reportName)",
+     "description": "Report name concatenated to the report folder without checking it stays inside it", "seeded": true}]},
+  "V06": {"file": "samples/V06PasswordHasher.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V06-1", "cwe": "CWE-327", "category": "security", "lines": [10, 10], "anchor": "getInstance(\"MD5\")",
+     "description": "Passwords hashed with unsalted MD5", "seeded": true}]},
+  "V07": {"file": "samples/V07XmlImporter.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V07-1", "cwe": "CWE-611", "category": "security", "lines": [17, 19], "anchor": "DocumentBuilderFactory.newInstance()",
+     "description": "XML parser created without disabling DOCTYPE / external entities (XXE)", "seeded": true}]},
+  "V08": {"file": "samples/V08FileStats.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V08-1", "cwe": "CWE-404", "category": "reliability", "lines": [16, 21], "anchor": "new BufferedReader(",
+     "description": "BufferedReader is never closed", "seeded": true},
+    {"issue_id": "V08-2", "cwe": "CWE-476", "category": "reliability", "lines": [15, 16], "anchor": "path.trim()",
+     "description": "Map.get may return null, then path.trim() throws NullPointerException", "seeded": true}]},
+  "V09": {"file": "samples/V09CsvBuilder.java", "language": "java", "clean": false, "issues": [
+    {"issue_id": "V09-1", "cwe": null, "category": "performance", "lines": [9, 11], "anchor": "csv +=",
+     "description": "String concatenation inside a loop (use StringBuilder)", "seeded": true},
+    {"issue_id": "V09-2", "cwe": "CWE-390", "category": "reliability", "lines": [19, 20], "anchor": "catch (IOException e)",
+     "description": "Empty catch block hides write failures", "seeded": true}]},
+  "V10": {"file": "samples/V10PriceCalculator.java", "language": "java", "clean": true, "issues": []}
+}

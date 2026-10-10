@@ -1,0 +1,44 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+backend/data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Node
+node_modules/
+frontend/dist/
+frontend/test-results/
+frontend/playwright-report/
+backend/app/static_analysis/eslint/work/
+
+# Local tool installs (PMD etc.)
+tools/
+
+# Built frontend copied in by the client package; stray test temp folder from a bad --basetemp path
+backend/static/
+backend/C%3A/
+
+# Evaluation outputs
+evaluation/results/*
+!evaluation/results/.gitkeep
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

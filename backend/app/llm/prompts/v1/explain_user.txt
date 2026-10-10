@@ -1,0 +1,22 @@
+Analyse the following {language_label} code.
+
+=== NUMBERED CODE (lines 1 to {line_count}) ===
+{numbered_code}
+=== END OF CODE ===
+
+=== STATIC ANALYSIS FINDINGS (from rule-based tools; may contain false positives) ===
+{static_findings_block}
+=== END OF STATIC FINDINGS ===
+
+Tasks:
+A. "purpose_summary": 2 to 4 sentences describing what the code is for and what it does overall.
+B. "breakdown": divide the code into consecutive sections that together cover every non-blank line from 1 to {line_count} without overlapping. For each section give start_line, end_line, a short title, and an explanation (2 to 5 sentences) of what that part does, naming the important functions, variables, libraries and control flow.
+C. "findings": list every real problem you find in these categories: security, reliability, performance, maintainability. For each finding give: a short title; category; start_line and end_line; "description" = why it matters (the possible consequence); "evidence" = the specific code that shows the problem; "recommendation" = how to fix it; "severity_suggested" (CRITICAL, HIGH, MEDIUM or LOW); "cwe_id" (e.g. "CWE-89") if a CWE applies, otherwise null; "model_uncertain" (true or false); "related_static_ids" = the IDs of static findings above that describe the same problem (empty list if none).
+D. "static_assessment": for EVERY static finding ID listed above, say whether you "agree" it is a real problem or think it is "likely_false_positive", with a one-sentence reason. If there are no static findings, return an empty list.
+E. "improved_code": the complete improved version of the whole code (not a fragment), in the same language.
+F. "changes": a numbered list of every change you made in improved_code. For each: "number", "description" (what changed), "reason" (why the new version is better than the original — compare the two), "related_findings" (finding indexes from your findings list, starting at 1), "original_lines" ([start_line, end_line] in the original code, or null if the change adds new lines only).
+G. "sensitive_domains": list any of these that the code handles: "authentication", "cryptography", "payments", "personal_data". Empty list if none.
+H. "limitations": 1 to 4 short sentences about what you could not determine from this code alone (for example, how a function is called, missing context, or behaviour that depends on runtime data).
+
+Return JSON with exactly this structure:
+{json_schema}

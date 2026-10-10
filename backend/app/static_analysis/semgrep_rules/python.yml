@@ -1,0 +1,131 @@
+rules:
+  - id: xai-py-sql-string-concat
+    languages: [python]
+    severity: ERROR
+    message: SQL query built from string concatenation or formatting; user input can change the query (SQL injection).
+    metadata: {cwe: "CWE-89", owasp: "A03:2021 - Injection", category: security}
+    pattern-either:
+      - pattern: $CUR.execute(<... "..." + $X ...>, ...)
+      - pattern: $CUR.execute($Q + $X, ...)
+      - pattern: $CUR.execute(f"...", ...)
+      - pattern: $CUR.execute("...".format(...), ...)
+      - pattern: $CUR.execute("..." % $X, ...)
+      - patterns:
+          - pattern: $CUR.execute($Q, ...)
+          - pattern-either:
+              - pattern-inside: |
+                  $Q = <... "..." + $X ...>
+                  ...
+              - pattern-inside: |
+                  $Q = f"..."
+                  ...
+              - pattern-inside: |
+                  $Q = "...".format(...)
+                  ...
+              - pattern-inside: |
+                  $Q = "..." % $X
+                  ...
+
+  - id: xai-py-os-system
+    languages: [python]
+    severity: ERROR
+    message: Shell command built from variable input; an attacker could inject extra commands.
+    metadata: {cwe: "CWE-78", owasp: "A03:2021 - Injection", category: security}
+    patterns:
+      - pattern-either:
+          - pattern: os.system($X)
+          - pattern: os.popen($X, ...)
+          - pattern: subprocess.$F(..., shell=True, ...)
+      - pattern-not: os.system("...")
+      - pattern-not: os.popen("...", ...)
+      - pattern-not: subprocess.$F("...", ..., shell=True, ...)
+
+  - id: xai-py-pickle-loads
+    languages: [python]
+    severity: ERROR
+    message: Deserialising untrusted data with pickle (or yaml.load) can run arbitrary code.
+    metadata: {cwe: "CWE-502", owasp: "A08:2021 - Software and Data Integrity Failures", category: security}
+    pattern-either:
+      - pattern: pickle.loads(...)
+      - pattern: pickle.load(...)
+      - pattern: yaml.load($X)
+
+  - id: xai-py-eval
+    languages: [python]
+    severity: ERROR
+    message: eval/exec on dynamic input can run arbitrary code.
+    metadata: {cwe: "CWE-95", owasp: "A03:2021 - Injection", category: security}
+    patterns:
+      - pattern-either:
+          - pattern: eval($X, ...)
+          - pattern: exec($X, ...)
+      - pattern-not: eval("...", ...)
+      - pattern-not: exec("...", ...)
+
+  - id: xai-py-weak-hash
+    languages: [python]
+    severity: WARNING
+    message: MD5/SHA1 are weak for passwords or integrity checks.
+    metadata: {cwe: "CWE-327", owasp: "A02:2021 - Cryptographic Failures", category: security}
+    pattern-either:
+      - pattern: hashlib.md5(...)
+      - pattern: hashlib.sha1(...)
+      - pattern: hashlib.new("md5", ...)
+      - pattern: hashlib.new("sha1", ...)
+
+  - id: xai-py-path-join-user-input
+    languages: [python]
+    severity: WARNING
+    message: File path built from input without checking it stays inside the intended folder (path traversal).
+    metadata: {cwe: "CWE-22", owasp: "A01:2021 - Broken Access Control", category: security}
+    pattern-either:
+      - patterns:
+          - pattern: open(os.path.join($BASE, $NAME), ...)
+          - pattern-not: open(os.path.join($BASE, "..."), ...)
+      - patterns:
+          - pattern: open($P, ...)
+          - pattern-inside: |
+              $P = os.path.join($BASE, $NAME)
+              ...
+          - pattern-not-inside: |
+              $P = os.path.join($BASE, "...")
+              ...
+          - pattern-not-inside: |
+              $P = os.path.join($BASE, $NAME)
+              ...
+              if <... os.path.commonpath(...) ...>:
+                ...
+              ...
+          - pattern-not-inside: |
+              $P = os.path.join($BASE, $NAME)
+              ...
+              if <... $P.startswith(...) ...>:
+                ...
+              ...
+
+  - id: xai-py-mutable-default
+    languages: [python]
+    severity: WARNING
+    message: Mutable default argument is shared between calls.
+    metadata: {category: reliability}
+    pattern-either:
+      - pattern: "def $F(..., $A=[], ...): ..."
+      - pattern: "def $F(..., $A={}, ...): ..."
+
+  - id: xai-py-bare-except
+    languages: [python]
+    severity: WARNING
+    message: Bare except hides all errors, including programming mistakes.
+    metadata: {cwe: "CWE-396", category: reliability}
+    pattern: |
+      try:
+        ...
+      except:
+        ...
+
+  - id: xai-py-requests-no-verify
+    languages: [python]
+    severity: WARNING
+    message: TLS certificate verification is disabled, so the connection can be intercepted.
+    metadata: {cwe: "CWE-295", owasp: "A07:2021 - Identification and Authentication Failures", category: security}
+    pattern: requests.$M(..., verify=False, ...)

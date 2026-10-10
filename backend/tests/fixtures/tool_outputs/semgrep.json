@@ -1,0 +1,73 @@
+{
+  "version": "1.95.0",
+  "results": [
+    {
+      "check_id": "tmp.app.static_analysis.semgrep_rules.xai-py-sql-string-concat",
+      "path": "snippet.py",
+      "start": {"line": 10, "col": 5, "offset": 210},
+      "end": {"line": 10, "col": 23, "offset": 228},
+      "extra": {
+        "message": "SQL query built from string concatenation or formatting; user input can change the query (SQL injection).",
+        "metadata": {"cwe": "CWE-89", "owasp": "A03:2021 - Injection", "category": "security"},
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "is_ignored": false,
+        "validation_state": "NO_VALIDATOR",
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.dangerous-system-call-tainted-env-args.dangerous-system-call-tainted-env-args",
+      "path": "snippet.py",
+      "start": {"line": 15, "col": 5, "offset": 300},
+      "end": {"line": 15, "col": 35, "offset": 330},
+      "extra": {
+        "message": "Found user-controlled data used in a system call. This could allow a malicious actor to execute commands.",
+        "metadata": {
+          "cwe": ["CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"],
+          "owasp": ["A01:2017 - Injection", "A03:2021 - Injection"],
+          "category": "security"
+        },
+        "severity": "ERROR",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "is_ignored": false,
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "tmp.app.static_analysis.semgrep_rules.xai-py-bare-except",
+      "path": "snippet.py",
+      "start": {"line": 23, "col": 5, "offset": 400},
+      "end": {"line": 26, "col": 13, "offset": 460},
+      "extra": {
+        "message": "Bare except hides all errors, including programming mistakes.",
+        "metadata": {"cwe": "CWE-396", "category": "reliability"},
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "is_ignored": false,
+        "engine_kind": "OSS"
+      }
+    },
+    {
+      "check_id": "tmp.app.static_analysis.semgrep_rules.xai-py-mutable-default",
+      "path": "snippet.py",
+      "start": {"line": 3, "col": 1, "offset": 20},
+      "end": {"line": 4, "col": 20, "offset": 60},
+      "extra": {
+        "message": "Mutable default argument is shared between calls.",
+        "metadata": {"category": "reliability"},
+        "severity": "WARNING",
+        "fingerprint": "requires login",
+        "lines": "requires login",
+        "is_ignored": false,
+        "engine_kind": "OSS"
+      }
+    }
+  ],
+  "errors": [],
+  "paths": {"scanned": ["snippet.py"]},
+  "skipped_rules": []
+}

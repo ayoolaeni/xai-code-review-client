@@ -1,0 +1,10 @@
+Review the following {language_label} code for problems only.
+
+=== NUMBERED CODE (lines 1 to {line_count}) ===
+{numbered_code}
+=== END OF CODE ===
+
+List every real problem you find in these categories: security, reliability, performance, maintainability. For each give title, category, start_line, end_line, severity_suggested (CRITICAL, HIGH, MEDIUM or LOW), cwe_id (or null) and model_uncertain (true/false).
+
+Return JSON with exactly this structure:
+{json_schema}
